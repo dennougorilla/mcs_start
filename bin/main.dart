@@ -20,6 +20,30 @@ main() {
   Nyxx bot = NyxxVm(Platform.environment['MCSBOT_TOKEN']);
   bot.onMessageReceived.listen((MessageEvent e) {
     List<String> message = e.message.toString().split(' ');
+    if (message[0] == '/status') {
+      clientViaServiceAccount(_credentials, _SCOPES).then((http_client) {
+        final client = commons.ApiRequester(
+            http_client,
+            "https://www.googleapis.com/",
+            "compute/v1/projects/",
+            'dart-api-client compute/v1');
+        var instance = InstancesResourceApi(client);
+        instance
+            .get('minecraft-251315', 'asia-northeast1-b', 'mc-server')
+            .then((ins) {
+	  print(ins.status);
+          switch (ins.status) {
+            case 'RUNNING':
+              bot.self
+                  .setPresence(status: 'online', game: Presence.of(ins.status));
+              break;
+            default:
+              bot.self
+                  .setPresence(status: 'idle', game: Presence.of(ins.status));
+          }
+        });
+      });
+    }
     if (message[0] == '/start') {
       clientViaServiceAccount(_credentials, _SCOPES).then((http_client) {
         final client = commons.ApiRequester(
