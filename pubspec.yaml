@@ -1,0 +1,18 @@
+name: mcs_start
+description: A sample command-line application.
+# version: 1.0.0
+# homepage: https://www.example.com
+# author: dennougorilla <dennougorilla@gmail.com>
+
+environment:
+  sdk: '>=2.2.0 <3.0.0'
+
+dependencies:
+  googleapis_auth: any
+  googleapis: ^0.54.0
+  nyxx: 
+    git: https://github.com/l7ssha/nyxx.git
+
+dev_dependencies:
+  pedantic: ^1.0.0
+  test: ^1.0.0
